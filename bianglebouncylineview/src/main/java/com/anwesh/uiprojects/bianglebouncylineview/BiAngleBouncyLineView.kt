@@ -26,3 +26,32 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawAngleBouncyLine(i : Int, scale : Float, size : Float, paint : Paint) {
+    val sf : Float = scale.sinify().divideScale(i, lines)
+    val si : Float = 1f - 2 * i
+    save()
+    rotate(-rot * sf * sf)
+    drawLine(0f, 0f, size * sf, 0f, paint)
+    restore()
+}
+
+fun Canvas.drawBiAngleBouncyLine(scale : Float, size : Float, paint : Paint) {
+    for (j in 0..(lines - 1)) {
+        drawAngleBouncyLine(j, scale, size, paint)
+    }
+}
+
+fun Canvas.drawBABLNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    save()
+    translate(gap * (i + 1), h / 2)
+    drawBiAngleBouncyLine(scale, size, paint)
+    restore()
+}
