@@ -19,7 +19,7 @@ val strokeFactor : Int = 90
 val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#3F51B5")
 val backColor : Int = Color.parseColor("#BDBDBD")
-val delay : Long = 30
+val delay : Long = 15
 val rot : Float = 45f
 
 fun Int.inverse() : Float = 1f / this
@@ -31,8 +31,8 @@ fun Canvas.drawAngleBouncyLine(i : Int, scale : Float, size : Float, paint : Pai
     val sf : Float = scale.sinify().divideScale(i, lines)
     val si : Float = 1f - 2 * i
     save()
-    rotate(-rot * sf * sf)
-    drawLine(0f, 0f, size * sf, 0f, paint)
+    rotate(-rot * sf * si)
+    drawLine(0f, 0f, size * si, 0f, paint)
     restore()
 }
 
