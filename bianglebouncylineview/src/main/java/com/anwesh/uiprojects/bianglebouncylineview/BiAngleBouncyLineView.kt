@@ -186,4 +186,26 @@ class BiAngleBouncyLineView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiAngleBouncyLineView) {
+
+        private val animator : Animator = Animator(view)
+        private val babl : BiAngleBouncyLine = BiAngleBouncyLine(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            babl.draw(canvas, paint)
+            animator.animate {
+                babl.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            babl.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
